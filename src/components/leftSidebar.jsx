@@ -81,17 +81,22 @@ const LeftSidebar = () => {
   };
   return (
     <>
-    {isLoading && <Loader/>}
-      <div className="fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen">
-        <div className="flex flex-col">
-          <h1 className="my-8 pl-3 font-bold text-xl">LOGO</h1>
-          <div>
+      {isLoading && <Loader />}
+      <div className="fixed top-0 z-10 left-0  border-r border-gray-300 w-[16%] h-screen">
+        <div className="flex flex-col overflow-y-scroll h-screen overflow-hidden px-4 relative">
+          <div className="absolute z-30">
+            <img
+              src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
+              className="w-[12%] mx-auto fixed bg-white "
+            />
+          </div>
+          <div className="pt-[30px] xl:pt-[50px] 2xl:pt-[80px]">
             {sidebarItem.map((item, index) => {
               return (
                 <div
                   onClick={() => sidebarHandler(item?.text)}
                   key={index}
-                  className="flex items-center gap-3 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-2"
+                  className="flex items-center gap-3 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-[6px] 2xl:my-2"
                 >
                   {item.icon}
                   <span>{item.text}</span>
