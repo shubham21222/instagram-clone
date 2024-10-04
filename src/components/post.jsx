@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { setPosts } from "@/redux/postSlice";
+import { IoIosSend } from "react-icons/io";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,11 @@ const Post = ({ post }) => {
     post?.likes?.includes(user_Details?._id) || false // initialize based on user ID
   );
   const [postLike, setPostLike] = useState(post?.likes?.length);
-
+  const [comment, setComment] = useState("");
+  const [isRefresh, setRefresh] = useState(false);
+  const refreshData = () => {
+    setRefresh(!isRefresh);
+  };
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
@@ -71,13 +76,30 @@ const Post = ({ post }) => {
       );
     }
   };
-// const handleComment = async() =>{
-//   try {
-//     const response = await axios.post(`${Base_url}/`)
-//   } catch (error) {
-//     console.log(error ,"Error")
-//   }
-// }
+  const handleComment = async (id) => {
+    try {
+      const response = await axios.post(
+        `${Base_url}/api/v1/postAuth/AddComment/${id}`,
+        {
+          text: comment,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setComment("");
+        refreshData();
+      } else {
+        toast.error("Failed");
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
@@ -109,24 +131,22 @@ const Post = ({ post }) => {
     <>
       <div className="my-8 w-full max-w-sm mx-auto">
         <div className="flex items-center justify-between">
-          <div className="flex gap-1 items-center">
-            {/* <Avatar className="border"> 
-              <AvatarImage src={post?.auther?.profilePicture} alt="post_image" className="w-5 h-5">
-                <AvatarFallback>CN</AvatarFallback>
-              </AvatarImage>
-            </Avatar> */}
-            <img
-              className="rounded-full my-1 aspect-square object-cover"
-              src="https://images.unsplash.com/photo-1726842201445-0992a3d66e3a?w=30&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDQzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-              alt="post-image"
-            />
+          <div className="flex gap-2 items-center">
+            <Avatar className="border">
+              <AvatarImage
+                src={post?.author?.profilePicture}
+                alt="post_image"
+                className="w-10 h-10"
+              ></AvatarImage>
+            </Avatar>
+
             <h1>{post?.author?.Username}</h1>
           </div>
           <Dialog>
             <DialogTrigger asChild>
               <MoreHorizontal className="cursor-pointer" />
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-lg">
               <button>unFollow</button>
               <button>Add to favorite</button>
 
@@ -147,24 +167,28 @@ const Post = ({ post }) => {
           <div className="flex gap-x-3 items-center">
             {/* <FaRegHeart size={"20px"} onClick={likeDislike} /> */}
 
-            {liked  ? (
+            {liked ? (
               <FaHeart
                 size={"20px"}
                 onClick={likeDislike}
-                className="text-red-700"
+                className="text-red-700 cursor-pointer"
               />
             ) : (
-              <FaRegHeart size={"20px"} onClick={likeDislike} />
+              <FaRegHeart
+                size={"20px"}
+                onClick={likeDislike}
+                className="cursor-pointer"
+              />
             )}
 
             <MessageCircle
               size={"20px"}
               onClick={() => setOpen(true)}
-              className="cursor-pointer hover:text-gray-600"
+              className="cursor-pointer hover:text-gray-600 cursor-pointer"
             />
             <Send
               size={"20px"}
-              className="cursor-pointer hover:text-gray-600"
+              className="cursor-pointer hover:text-gray-600 cursor-pointer"
             />
           </div>
           <Bookmark
@@ -177,21 +201,40 @@ const Post = ({ post }) => {
           <span className="font-medium mr-2">{post?.author?.Username}</span>
           {post?.caption}
         </p>
-        <span
-          onClick={() => setOpen(true)}
-          className=" cursor-pointer text-gray-400"
-        >
-          View all comments
-        </span>
-        <CommentDialog open={open} setOpen={setOpen} />
-        <div className="flex">
+        <div className="my-1">
+          <span
+            onClick={() => setOpen(true)}
+            className=" cursor-pointer text-gray-400 "
+          >
+            View all comments
+          </span>
+        </div>
+        <CommentDialog
+        post={post}
+          open={open}
+          setOpen={setOpen}
+          postId={post?._id}
+          postImage={post?.image}
+          postAuthor={post?.author}
+          postComments={post?.comments}
+        />
+        <div className="flex border p-1 rounded">
           <input
             type="text"
             placeholder="Add a comment..."
             onChange={changeEventHandler}
             className="outline-none tetx-sm w-full"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
-          {text && <span className="">Post</span>}
+          <button onClick={() => handleComment(post?._id)}>
+            {comment && (
+              <span className="">
+                {" "}
+                <IoIosSend size={"20px"} />
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </>

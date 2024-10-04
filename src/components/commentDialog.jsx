@@ -1,10 +1,33 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { MoreHorizontal } from "lucide-react";
-
-const CommentDialog = ({ open, setOpen }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/Avatar";
+import { FaHeart, FaHeartBroken } from "react-icons/fa";
+import { IoIosSend } from "react-icons/io";
+import axios from "axios";
+import { Base_url } from "@/utils/config";
+import { toast } from "react-toastify";
+import { setPosts } from "@/redux/postSlice";
+const CommentDialog = ({
+  post,
+  open,
+  setOpen,
+  postId,
+  postImage,
+  postAuthor,
+  postComments,
+}) => {
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.Post);
+  const { user_Details } = useSelector((state) => state.Auth);
   const [text, setText] = useState("");
-
+  const { token } = useSelector((state) => state.Auth);
+  const [comment, setComment] = useState("");
+  const [isRefresh, setRefresh] = useState(false);
+  const refreshData = () => {
+    setRefresh(!isRefresh);
+  };
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
@@ -13,69 +36,148 @@ const CommentDialog = ({ open, setOpen }) => {
       setText("");
     }
   };
-  const sendMassegeHandler = async () => {
-    alert(text);
+  const handleComment = async () => {
+    try {
+      const response = await axios.post(
+        `${Base_url}/api/v1/postAuth/AddComment/${postId}`,
+        {
+          text: comment,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setComment("");
+        refreshData();
+
+        const updatedPostData = posts.map((p) =>
+          p._id === post._id
+            ? {
+                ...p,
+                comments: [
+                  ...p.comments,
+                  {
+                    _id: user_Details._id,
+                    text: comment, // Adding the comment text
+                    username: user_Details.username, // Adding the username or any other user detail you want to store
+                  },
+                ],
+              }
+            : p
+        );
+
+        dispatch(setPosts(updatedPostData));
+      } else {
+        toast.error("Failed to add comment");
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
   };
+  // const handleComment = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${Base_url}/api/v1/postAuth/AddComment/${postId}`,
+  //       {
+  //         text: comment,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     );
+  //     if (response.data.success) {
+  //       toast.success(response.data.message);
+  //       setComment("");
+  //       refreshData();
+
+  //     } else {
+  //       toast.error("Failed");
+  //     }
+  //   } catch (error) {
+  //     console.log(error.response.data.message);
+  //   }
+  // };
   return (
     <>
-      <Dialog open={open}>
-        <DialogContent onInteractOutside={() => setOpen(false)} className="p-0">
-          <div className="flex">
+      <Dialog open={open} className="">
+        <DialogContent
+          onInteractOutside={() => setOpen(false)}
+          className="p-0 max-w-[60%]"
+        >
+          <div className="flex ">
             <div className="w-1/2">
               <img
-                className="rounded-sm aspect-square object-cover"
-                src="https://images.unsplash.com/photo-1720048171527-208cb3e93192?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyMXx8fGVufDB8fHx8fA%3D%3D"
+                className="w-[200%] rounded-sm aspect-square object-cover "
+                src={postImage}
                 alt="post-image"
               />
             </div>
-            <div className="w-1/2 flex flex-col p-2 ">
+            <div className="w-1/2 flex flex-col p-2 justify-between ">
               <div className="flex items-center justify-between">
                 <div className="flex gap-3 items-center">
-                  {/* <Avatar className="border"> 
-              <AvatarImage src="https://images.unsplash.com/photo-1726232409063-00c6b4009b08?w=50&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" alt="post_image">
-                <AvatarFallback>CN</AvatarFallback>
-              </AvatarImage>
-            </Avatar> */}
-                  <img
-                    className="rounded-full my-1 aspect-square object-cover"
-                    src="https://images.unsplash.com/photo-1726842201445-0992a3d66e3a?w=30&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDQzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D"
-                    alt="post-image"
-                  />
+                  <Avatar className="border">
+                    <AvatarImage
+                      src={postAuthor.profilePicture}
+                      alt="post_image"
+                    ></AvatarImage>
+                  </Avatar>
+
                   <div>
-                    hariom_4022{" "}
+                    {postAuthor.Username}{" "}
                     <span className="text-gray-600">Bio here...</span>
                   </div>
+                  <hr />
                 </div>
                 <Dialog>
                   <DialogTrigger asChild>
                     <MoreHorizontal className="cursor-pointer" />
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="max-w-lg">
                     <button className="text-red-700">UnFollow</button>
                     <button>Add to favorite</button>
                   </DialogContent>
                 </Dialog>
               </div>
-              <hr />
-              <div>Comments...</div>
+              <div>
+                {postComments?.map((comment, index) => (
+                  <div
+                    key={index}
+                    className="py-2 flex justify-between items-center"
+                  >
+                    <p className="text-sm">
+                      <span className="font-semibold ">
+                        {comment?.author?.Username}{" "}
+                      </span>
+                      {comment?.text}
+                    </p>
+                    <FaHeart size={"14px"} className="text-red-700" />
+                  </div>
+                ))}
 
-              <div>Comments...</div>
-              <div>Comments...</div>
-
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  className="border outline-none w-full border-gray-300 rounded"
-                  placeholder="Add a comment..."
-                  onChange={changeEventHandler}
-                />
-                <button
-                  disabled={!text.trim()}
-                  onClick={sendMassegeHandler}
-                  className=" border border-gray-300 rounded"
-                >
-                  Send
-                </button>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    className="border outline-none w-full border-gray-300 rounded p-1"
+                    placeholder="Add a comment..."
+                    onChange={changeEventHandler}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <button
+                    disabled={!comment.trim()}
+                    onClick={handleComment}
+                    className=" border border-gray-300 rounded p-1"
+                  >
+                    <IoIosSend size={"20px"} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

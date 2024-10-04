@@ -66,13 +66,13 @@ const CreatePost = ({ open, setOpen }) => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer  autoClose={1000}/>
       {/* {isLoading && <Loader />} */}
       <div className="">
         <Dialog open={open}>
           <DialogContent
             onInteractOutside={() => setOpen(false)}
-            className="overflow-y-scroll h-[85vh] scrollbarThin"
+            className="overflow-y-scroll h-[85vh] scrollbarThin max-w-[40%]"
           >
             <DialogHeader className="text-center font-semibold">
               Create New Post
@@ -83,7 +83,9 @@ const CreatePost = ({ open, setOpen }) => {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="font-semibold text-xs">{user_Details?.Username}</h1>
+                <h1 className="font-semibold text-xs">
+                  {user_Details?.Username}
+                </h1>
                 <span className="text-gray-600 text-xs">Bio here...</span>
               </div>
             </div>
