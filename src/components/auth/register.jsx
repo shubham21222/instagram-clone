@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "@/utils/loader";
 
 const Registration = () => {
   const [isLoading, setLoading] = useState(false);
-
+const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    Username:"",
     password: "",
     profilePicture: null,
   });
@@ -43,6 +44,7 @@ const Registration = () => {
     formDataToSend.append("firstName", formData.firstName);
     formDataToSend.append("lastName", formData.lastName);
     formDataToSend.append("email", formData.email);
+    formDataToSend.append("Username", formData.Username)
     formDataToSend.append("password", formData.password);
     formDataToSend.append("profilePicture", formData.profilePicture);
 
@@ -58,6 +60,7 @@ const Registration = () => {
       );
       setSuccessMessage("Registration successful!");
       toast.success("Registration successful!");
+      navigate("/")
     } catch (error) {
       setErrorMessage("Error occurred during registration. Please try again.");
       toast.error("Registration Failed!");
@@ -84,7 +87,8 @@ const Registration = () => {
               />
               <h1 className="font-semibold text-[22px]  my-1">SignUp</h1>
             </div>
-            <div className="form-group">
+          <div className="grid grid-cols-2 gap-2">
+          <div className="form-group">
               <label>First Name</label>
               <input
                 type="text"
@@ -105,6 +109,7 @@ const Registration = () => {
                 required
               />
             </div>
+          </div>
 
             <div className="form-group">
               <label>Email</label>
@@ -112,6 +117,16 @@ const Registration = () => {
                 type="email"
                 name="email"
                 value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                name="Username"
+                value={formData.Username}
                 onChange={handleChange}
                 required
               />

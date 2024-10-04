@@ -83,7 +83,7 @@ const LeftSidebar = () => {
     <>
       {isLoading && <Loader />}
       <div className="fixed top-0 z-10 left-0  border-r border-gray-300 w-[16%] h-screen">
-        <div className="flex flex-col overflow-y-scroll h-screen overflow-hidden px-4 relative">
+        <div className="flex flex-col overflow-y-scroll h-screen overflow-hidden px-4 relative scrollbarHidden">
           <div className="absolute z-30">
             <img
               src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"

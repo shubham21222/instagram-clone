@@ -1,17 +1,17 @@
 // import { configureStore, combineReducers } from "@reduxjs/toolkit";
 // import { persistReducer, persistStore } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
-// import authReducer from "./slice"; 
+// import authReducer from "./slice";
 
 // const persistConfig = {
 //   key: "root",
 //   storage,
-//   whitelist: ["Auth"], 
+//   whitelist: ["Auth"],
 // };
 
 // const rootReducer = combineReducers({
 //   Auth: authReducer,
- 
+
 // });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -22,21 +22,21 @@
 
 // export const persistor = persistStore(store);
 
-
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./slice";
-
+import postReducer from "./postSlice"
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth"], // Add the slices you want to persist here
+  whitelist: ["Auth" , "Post"], // Add the slices you want to persist here
 };
 
 const rootReducer = combineReducers({
   Auth: authReducer,
+  Post: postReducer,
   // Add more reducers here if needed
 });
 
@@ -48,7 +48,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types from redux-persist
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }),
 });

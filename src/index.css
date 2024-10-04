@@ -73,7 +73,12 @@ html body{
   padding: 0px;
   font-size: 14px;
 }
-
+.scrollbarThin {
+  scrollbar-width: thin;
+}
+.scrollbarHidden {
+  scrollbar-width: none !important;
+}
 
 /* RegistrationForm.css */
 .form-container {
