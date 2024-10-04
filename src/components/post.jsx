@@ -89,12 +89,31 @@ const Post = ({ post }) => {
           },
         }
       );
+
       if (response.data.success) {
         toast.success(response.data.message);
         setComment("");
         refreshData();
+
+        const updatedPostData = posts.map((p) =>
+          p._id === post._id
+            ? {
+                ...p,
+                comments: [
+                  ...p.comments,
+                  {
+                    _id: user_Details._id,
+                    text: comment, // Adding the comment text
+                    username: user_Details.username, // Adding the username or any other user detail you want to store
+                  },
+                ],
+              }
+            : p
+        );
+
+        dispatch(setPosts(updatedPostData));
       } else {
-        toast.error("Failed");
+        toast.error("Failed to add comment");
       }
     } catch (error) {
       console.log(error.response.data.message);
