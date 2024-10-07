@@ -77,6 +77,8 @@ const LeftSidebar = () => {
       handleLogout();
     } else if (textType === "Create") {
       createPostHandler();
+    }else if (textType === "Profile") {
+      navigate(`/profile/${user_Details?._id}`)
     }
   };
   return (
