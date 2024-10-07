@@ -51,7 +51,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        toast.success(`${action}d`); // Show dynamic toast based on action (Liked/Disliked)
+        toast.success(`${action}d`);
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);

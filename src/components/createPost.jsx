@@ -22,7 +22,6 @@ const CreatePost = ({ open, setOpen }) => {
   const imageRef = useRef();
   const [file, setFile] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-  console.log(posts, "posts");
   const fileChangeHandler = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -43,7 +42,7 @@ const CreatePost = ({ open, setOpen }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",  
             Authorization: token,
           },
         }
@@ -66,7 +65,7 @@ const CreatePost = ({ open, setOpen }) => {
 
   return (
     <>
-      <ToastContainer  autoClose={1000}/>
+      <ToastContainer autoClose={1000} />
       {/* {isLoading && <Loader />} */}
       <div className="">
         <Dialog open={open}>
