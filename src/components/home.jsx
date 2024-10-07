@@ -6,19 +6,25 @@ import LeftSidebar from "./leftSidebar";
 import protectedRoute from "@/utils/protectRout";
 import { ToastContainer } from "react-toastify";
 import useGetAllPost from "@/hooks/useGetAllPost";
+import useGetSuggestedUser from "@/hooks/useGetSuggestedUsers";
 
 const Home = () => {
   useGetAllPost();
+  useGetSuggestedUser();
   return (
     <>
       <ToastContainer autoClose={1500} />
-      <div className="flex w-full">
-        <LeftSidebar />
-        <div className="flex-grow">
+      <div className=" grid grid-cols-3 w-[100%]">
+        <div>
+          <LeftSidebar />
+        </div>{" "}
+        <div className="">
           <Feed />
           <Outlet />
         </div>
-        <RightSidebar />
+        <div className="">
+          <RightSidebar />
+        </div>{" "}
       </div>
     </>
   );

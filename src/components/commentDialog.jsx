@@ -21,6 +21,8 @@ const CommentDialog = ({
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.Post);
   const { user_Details } = useSelector((state) => state.Auth);
+  const { selectedPost } = useSelector((state) => state.Post);
+
   const [text, setText] = useState("");
   const { token } = useSelector((state) => state.Auth);
   const [comment, setComment] = useState("");
@@ -108,6 +110,7 @@ const CommentDialog = ({
   //     console.log(error.response.data.message);
   //   }
   // };
+
   const likeDislike = async (_id) => {
     try {
       const response = await axios.put(
@@ -119,7 +122,6 @@ const CommentDialog = ({
           },
         }
       );
-
       if (response?.data?.msg === "Liked the comment") {
         toast.success("Liked Comment");
         setLikedComment((prev) => [...prev, _id]); // Add the liked comment ID to the array
@@ -179,7 +181,7 @@ const CommentDialog = ({
                 </Dialog>
               </div>
               <div>
-                {postComments?.map((comment, index) => (
+                {postComments.map((comment, index) => (
                   <div
                     key={index}
                     className="py-2 flex justify-between items-center"
@@ -204,6 +206,11 @@ const CommentDialog = ({
                         className="cursor-pointer"
                       />
                     )}
+
+                    
+                    {/* {post.likes.map((likeId) => {
+                      console.log(likeId);
+                    })} */}
                   </div>
                 ))}
 

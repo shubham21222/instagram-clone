@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
-import { setPosts } from "@/redux/postSlice";
+import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { IoIosSend } from "react-icons/io";
 
 const Post = ({ post }) => {
@@ -146,9 +146,27 @@ const Post = ({ post }) => {
       setOpen(false);
     }
   };
+  const handleFollow = async (id) => {
+    try {
+      const response = await axios.post(
+        `${Base_url}/api/v1/Auth/followAndUnfollow/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (response.data.status === 200) {
+        toast.success("Followed");
+      } else console.log("Failed");
+    } catch (error) {
+      console.log(error, "Error");
+    }
+  };
   return (
     <>
-      <div className="my-8 w-full max-w-sm mx-auto">
+      <div className="my-8 w-full max-w-[400px] mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
             <Avatar className="border">
@@ -161,21 +179,29 @@ const Post = ({ post }) => {
 
             <h1>{post?.author?.Username}</h1>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <MoreHorizontal className="cursor-pointer" />
-            </DialogTrigger>
-            <DialogContent className="max-w-lg">
-              <button>unFollow</button>
-              <button>Add to favorite</button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => handleFollow(post?.author?._id)}
+              className="text-[#4CB5F9] font-[600]"
+            >
+              Follow
+            </button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <MoreHorizontal className="cursor-pointer" />
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <button onClick={() => handleFollow(post?.author?._id)} className="text-red-800">unFollow</button>
+                <button>Add to favorite</button>
 
-              {user_Details?._id === post?.author?._id && (
-                <button onClick={handleDelete} className="text-red-700">
-                  Delete
-                </button>
-              )}
-            </DialogContent>
-          </Dialog>
+                {user_Details?._id === post?.author?._id && (
+                  <button onClick={handleDelete} className="text-red-700">
+                    Delete
+                  </button>
+                )}
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
         <img
           className="rounded-sm my-1 aspect-square object-cover"
@@ -202,7 +228,9 @@ const Post = ({ post }) => {
 
             <MessageCircle
               size={"20px"}
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                dispatch(setSelectedPost(post));
+                setOpen(true)}}
               className="cursor-pointer hover:text-gray-600 cursor-pointer"
             />
             <Send
@@ -222,14 +250,16 @@ const Post = ({ post }) => {
         </p>
         <div className="my-1">
           <span
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              dispatch(setSelectedPost(post));
+              setOpen(true)}}
             className=" cursor-pointer text-gray-400 "
           >
             View all comments
           </span>
         </div>
         <CommentDialog
-        post={post}
+          post={post}
           open={open}
           setOpen={setOpen}
           postId={post?._id}
