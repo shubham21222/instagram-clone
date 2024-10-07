@@ -17,8 +17,8 @@ const useGetAllPost = () => {
           //   withCredentials: true,
         });
         if (response.data.success) {
-          console.log(response.data.data);
-          
+          // console.log(response.data.data);
+
           dispatch(setPosts(response.data.data));
         }
       } catch (error) {

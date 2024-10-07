@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { MoreHorizontal } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/Avatar";
-import { FaHeart, FaHeartBroken } from "react-icons/fa";
+import { FaHeart, FaHeartBroken, FaRegHeart } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
@@ -24,7 +24,13 @@ const CommentDialog = ({
   const [text, setText] = useState("");
   const { token } = useSelector((state) => state.Auth);
   const [comment, setComment] = useState("");
+  const [liked, setLiked] = useState(
+    post?.comments?.liked?.includes(user_Details?._id) || false // initialize based on user ID
+  );
+  const [postLike, setPostLike] = useState(post?.comments?.liked?.length);
+
   const [isRefresh, setRefresh] = useState(false);
+  const [likedComment, setLikedComment] = useState([]);
   const refreshData = () => {
     setRefresh(!isRefresh);
   };
@@ -49,7 +55,6 @@ const CommentDialog = ({
           },
         }
       );
-
       if (response.data.success) {
         toast.success(response.data.message);
         setComment("");
@@ -70,7 +75,6 @@ const CommentDialog = ({
               }
             : p
         );
-
         dispatch(setPosts(updatedPostData));
       } else {
         toast.error("Failed to add comment");
@@ -104,6 +108,35 @@ const CommentDialog = ({
   //     console.log(error.response.data.message);
   //   }
   // };
+  const likeDislike = async (_id) => {
+    try {
+      const response = await axios.put(
+        `${Base_url}/api/v1/postAuth/LikedComment/${postId}/${_id}`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response?.data?.msg === "Liked the comment") {
+        toast.success("Liked Comment");
+        setLikedComment((prev) => [...prev, _id]); // Add the liked comment ID to the array
+      } else if (response?.data?.msg === "Unliked the comment") {
+        toast.success("Unliked Comment");
+        setLikedComment((prev) => prev.filter((id) => id !== _id)); // Remove the comment ID from the array
+      } else {
+        toast.error("Failed to update like status");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(
+        error.response?.data?.message || "An error occurred while updating"
+      );
+    }
+  };
+
   return (
     <>
       <Dialog open={open} className="">
@@ -157,7 +190,20 @@ const CommentDialog = ({
                       </span>
                       {comment?.text}
                     </p>
-                    <FaHeart size={"14px"} className="text-red-700" />
+                    {/* <FaHeart size={"14px"} className="text-red-700" /> */}
+                    {likedComment.includes(comment._id) ? (
+                      <FaHeart
+                        size={"20px"}
+                        onClick={() => likeDislike(comment?._id)}
+                        className="text-red-700 cursor-pointer"
+                      />
+                    ) : (
+                      <FaRegHeart
+                        size={"20px"}
+                        onClick={() => likeDislike(comment?._id)}
+                        className="cursor-pointer"
+                      />
+                    )}
                   </div>
                 ))}
 
