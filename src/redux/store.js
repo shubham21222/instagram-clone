@@ -26,12 +26,12 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./slice";
-import postReducer from "./postSlice"
+import postReducer from "./postSlice";
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth" , "Post"], // Add the slices you want to persist here
+  whitelist: ["Auth", "Post"], // Add the slices you want to persist here
 };
 
 const rootReducer = combineReducers({

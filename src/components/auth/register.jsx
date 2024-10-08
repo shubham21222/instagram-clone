@@ -7,12 +7,12 @@ import Loader from "@/utils/loader";
 
 const Registration = () => {
   const [isLoading, setLoading] = useState(false);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    Username:"",
+    Username: "",
     password: "",
     profilePicture: null,
   });
@@ -44,7 +44,7 @@ const navigate = useNavigate();
     formDataToSend.append("firstName", formData.firstName);
     formDataToSend.append("lastName", formData.lastName);
     formDataToSend.append("email", formData.email);
-    formDataToSend.append("Username", formData.Username)
+    formDataToSend.append("Username", formData.Username);
     formDataToSend.append("password", formData.password);
     formDataToSend.append("profilePicture", formData.profilePicture);
 
@@ -60,7 +60,7 @@ const navigate = useNavigate();
       );
       setSuccessMessage("Registration successful!");
       toast.success("Registration successful!");
-      navigate("/")
+      navigate("/");
     } catch (error) {
       setErrorMessage("Error occurred during registration. Please try again.");
       toast.error("Registration Failed!");
@@ -87,29 +87,29 @@ const navigate = useNavigate();
               />
               <h1 className="font-semibold text-[22px]  my-1">SignUp</h1>
             </div>
-          <div className="grid grid-cols-2 gap-2">
-          <div className="form-group">
-              <label>First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="form-group">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-            <div className="form-group">
-              <label>Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
+              <div className="form-group">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
-          </div>
 
             <div className="form-group">
               <label>Email</label>

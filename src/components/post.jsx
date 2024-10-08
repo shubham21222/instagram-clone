@@ -191,7 +191,12 @@ const Post = ({ post }) => {
                 <MoreHorizontal className="cursor-pointer" />
               </DialogTrigger>
               <DialogContent className="max-w-lg">
-                <button onClick={() => handleFollow(post?.author?._id)} className="text-red-800">unFollow</button>
+                <button
+                  onClick={() => handleFollow(post?.author?._id)}
+                  className="text-red-800"
+                >
+                  unFollow
+                </button>
                 <button>Add to favorite</button>
 
                 {user_Details?._id === post?.author?._id && (
@@ -230,7 +235,8 @@ const Post = ({ post }) => {
               size={"20px"}
               onClick={() => {
                 dispatch(setSelectedPost(post));
-                setOpen(true)}}
+                setOpen(true);
+              }}
               className="cursor-pointer hover:text-gray-600 cursor-pointer"
             />
             <Send
@@ -252,7 +258,8 @@ const Post = ({ post }) => {
           <span
             onClick={() => {
               dispatch(setSelectedPost(post));
-              setOpen(true)}}
+              setOpen(true);
+            }}
             className=" cursor-pointer text-gray-400 "
           >
             View all comments

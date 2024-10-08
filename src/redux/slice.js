@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: null,
   user_Details: null, // Make sure to initialize all state variables
-  suggestedUsers:[],
+  suggestedUsers: [],
 };
 
 const authSlice = createSlice({
@@ -22,12 +22,17 @@ const authSlice = createSlice({
     removeUsersDetails: (state) => {
       state.user_Details = null;
     },
-    setSuggestedUsers:(state,action) => {
+    setSuggestedUsers: (state, action) => {
       state.suggestedUsers = action.payload;
-  },
+    },
   },
 });
 
-export const { setToken, removeToken, userDetails, removeUsersDetails ,setSuggestedUsers } =
-  authSlice.actions;
+export const {
+  setToken,
+  removeToken,
+  userDetails,
+  removeUsersDetails,
+  setSuggestedUsers,
+} = authSlice.actions;
 export default authSlice.reducer;

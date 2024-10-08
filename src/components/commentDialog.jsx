@@ -207,7 +207,6 @@ const CommentDialog = ({
                       />
                     )}
 
-                    
                     {/* {post.likes.map((likeId) => {
                       console.log(likeId);
                     })} */}
