@@ -18,7 +18,6 @@ const LogIn = () => {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-
   // Handle input change
   const handleChange = (e) => {
     setUserDetail({
@@ -46,7 +45,7 @@ const LogIn = () => {
         dispatch(setToken(response.data.token));
         dispatch(userDetails(response.data.user));
         toast.success("Login Success");
-        navigate("/home")
+        navigate("/home");
       }
     } catch (err) {
       // Handle error from API or network issues
@@ -61,52 +60,56 @@ const LogIn = () => {
   return (
     <>
       {/* <ToastContainer /> */}
-      {isLoading && <Loader/>}
-     <div className="flex justify-center items-center h-screen">
-     <div className=" border w-1/4 text-center px-5 rounded-[10px]">
-        <form onSubmit={handleSubmit} className="   mx-auto">
-          <div className="text-center">
-            <img
-              src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
-              className="w-[50%] mx-auto"
-            />
-            <h1 className="font-semibold text-[22px] my-1">Login</h1>
-          </div>
-          <div className="my-4">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={userDetail.email}
-              onChange={handleChange}
-              className="py-2 px-2 text-[14px] outline-none w-full rounded border"
-            />
-          </div>
-          <div className="my-4">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={userDetail.password}
-              onChange={handleChange}
-              className="py-2 px-2 text-[14px] outline-none w-full rounded border"
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+      {isLoading && <Loader />}
+      <div className="flex justify-center items-center h-screen">
+        <div className=" border w-1/4 text-center px-5 rounded-[10px]">
+          <form onSubmit={handleSubmit} className="   mx-auto">
+            <div className="text-center">
+              <img
+                src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
+                className="w-[50%] mx-auto"
+              />
+              <h1 className="font-semibold text-[22px] my-1">Login</h1>
+            </div>
+            <div className="my-4">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={userDetail.email}
+                onChange={handleChange}
+                className="py-2 px-2 text-[14px] outline-none w-full rounded border"
+              />
+            </div>
+            <div className="my-4">
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={userDetail.password}
+                onChange={handleChange}
+                className="py-2 px-2 text-[14px] outline-none w-full rounded border"
+              />
+            </div>
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-          <button
-            type="submit"
-            disabled={isLoader}
-            className="w-full text-center border text-white bg-blue-600 py-2 rounded"
-          >
-            {isLoader ? "Logging in..." : "Login"}
-          </button>
-        </form>
-          <p className="py-2">Create a new account <Link to="/registration"><span className="text-blue-600">Register</span></Link> </p>
-        <div>
+            <button
+              type="submit"
+              disabled={isLoader}
+              className="w-full text-center border text-white bg-blue-600 py-2 rounded"
+            >
+              {isLoader ? "Logging in..." : "Login"}
+            </button>
+          </form>
+          <p className="py-2">
+            Create a new account{" "}
+            <Link to="/registration">
+              <span className="text-blue-600">Register</span>
+            </Link>{" "}
+          </p>
+          <div></div>
         </div>
       </div>
-     </div>
     </>
   );
 };

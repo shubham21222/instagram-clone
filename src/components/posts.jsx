@@ -5,11 +5,10 @@ import { useSelector } from "react-redux";
 const Posts = () => {
   const { posts } = useSelector((state) => state.Post);
 
-
   return (
     <div className="">
       {posts.map((posts, index) => (
-        <Post key={index} post={posts}/>
+        <Post key={index} post={posts} />
       ))}
     </div>
   );

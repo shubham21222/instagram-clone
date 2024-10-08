@@ -20,10 +20,11 @@ const SuggestedUsers = () => {
             >
               <div className="flex items-center gap-2">
                 <Link to={`/profile/${user?._id}`}>
-              
-                                        <img src={user?.profilePicture} alt="post_image" className="w-8 h-8 rounded-full" />
-                                     
-                            
+                  <img
+                    src={user?.profilePicture}
+                    alt="post_image"
+                    className="w-8 h-8 rounded-full"
+                  />
                 </Link>
                 <div>
                   <h1 className="font-semibold text-sm">

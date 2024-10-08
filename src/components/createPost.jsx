@@ -42,7 +42,7 @@ const CreatePost = ({ open, setOpen }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",  
+            "Content-Type": "multipart/form-data",
             Authorization: token,
           },
         }
