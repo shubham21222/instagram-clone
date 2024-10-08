@@ -10,12 +10,12 @@ import LeftSidebar from "./leftSidebar";
 const Profile = () => {
   const params = useParams();
   const userId = params?.id;
-  useGetUserProfile(userId);
   const { user_Details } = useSelector((state) => state.Auth);
   const [activeTab, setActiveTab] = useState("post");
   const { userProfile } = useSelector((state) => state.userAuth);
   const logedInUser = user_Details?._id === userId;
   const isFollowing = true;
+  useGetUserProfile(userId);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);

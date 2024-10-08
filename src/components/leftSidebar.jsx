@@ -61,9 +61,8 @@ const LeftSidebar = () => {
       if (response.status === 200) {
         toast.success("Logout Successfully");
         dispatch(removeToken(""));
-        dispatch(setSuggestedUsers(null))
-        dispatch(setPosts(null))
-
+        dispatch(setSuggestedUsers(""))
+        dispatch(setPosts(""))
         dispatch(removeUsersDetails());
         navigate("/");
       }
