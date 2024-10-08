@@ -7,9 +7,8 @@ const Posts = () => {
 
   return (
     <div className="">
-      {posts.map((posts, index) => (
-        <Post key={index} post={posts} />
-      ))}
+      {Array.isArray(posts) &&
+        posts.map((posts, index) => <Post key={index} post={posts} />)}
     </div>
   );
 };
