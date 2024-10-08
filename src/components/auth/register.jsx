@@ -58,12 +58,13 @@ const Registration = () => {
           },
         }
       );
+    
       setSuccessMessage("Registration successful!");
       toast.success("Registration successful!");
       navigate("/");
     } catch (error) {
       setErrorMessage("Error occurred during registration. Please try again.");
-      toast.error("Registration Failed!");
+      toast.error(error.response.error.message);
     } finally {
       setLoading(false);
     }

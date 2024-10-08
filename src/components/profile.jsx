@@ -11,7 +11,7 @@ const Profile = () => {
   const params = useParams();
   const userId = params?.id;
   const { user_Details } = useSelector((state) => state.Auth);
-  const [activeTab, setActiveTab] = useState("post");
+  const [activeTab, setActiveTab] = useState("Post");
   const { userProfile } = useSelector((state) => state.userAuth);
   const logedInUser = user_Details?._id === userId;
   const isFollowing = true;

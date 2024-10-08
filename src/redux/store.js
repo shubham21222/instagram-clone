@@ -8,7 +8,7 @@ import userReducer from "./authSlice"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth", "Post"], // Add the slices you want to persist here
+  whitelist: ["Auth", "Post", "userAuth"], // Add the slices you want to persist here
 };
 
 const rootReducer = combineReducers({
