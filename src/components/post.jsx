@@ -11,6 +11,7 @@ import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { IoIosSend } from "react-icons/io";
+import useGetUserProfile from "@/hooks/useGetProfile";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const Post = ({ post }) => {
   const [open, setOpen] = useState(false);
   const { token } = useSelector((state) => state.Auth);
   const { user_Details } = useSelector((state) => state.Auth);
+  const { userProfile } = useSelector((state) => state.userAuth);
+
   const { posts } = useSelector((state) => state.Post);
   const [liked, setLiked] = useState(
     post?.likes?.includes(user_Details?._id) || false // initialize based on user ID
@@ -146,6 +149,7 @@ const Post = ({ post }) => {
       setOpen(false);
     }
   };
+
   const handleFollow = async (id) => {
     try {
       const response = await axios.post(
@@ -157,13 +161,17 @@ const Post = ({ post }) => {
           },
         }
       );
-      if (response.data.status === 200) {
+      // console.log(response.status === 200);
+      if (response.status === 200) {
         toast.success("Followed");
+        refreshData();
       } else console.log("Failed");
     } catch (error) {
       console.log(error, "Error");
     }
   };
+ 
+  
   return (
     <>
       <div className="my-8 w-full max-w-[400px] mx-auto">
@@ -180,23 +188,57 @@ const Post = ({ post }) => {
             <h1>{post?.author?.Username}</h1>
           </div>
           <div className="flex gap-3">
-            <button
+            {/* {post?.author?._id === userProfile?.following[3]?._id ? (
+              <button
               onClick={() => handleFollow(post?.author?._id)}
               className="text-[#4CB5F9] font-[600]"
             >
-              Follow
+              Followwwww
             </button>
+            ) : (
+              <button
+                onClick={() => handleFollow(post?.author?._id)}
+                className="text-[#4CB5F9] font-[600]"
+              >
+                Follow
+              </button>
+            )} */}
+            {userProfile?.following?.some(
+              (followingUser) => followingUser._id === post?.author?._id
+            ) ? (
+              ""
+            ) : (
+              <button
+                onClick={() => handleFollow(post?.author?._id)}
+                className="text-[#4CB5F9] font-[600]"
+              >
+                Follow
+              </button>
+            )}
+
             <Dialog>
               <DialogTrigger asChild>
                 <MoreHorizontal className="cursor-pointer" />
               </DialogTrigger>
               <DialogContent className="max-w-lg">
-                <button
-                  onClick={() => handleFollow(post?.author?._id)}
-                  className="text-red-800"
-                >
-                  unFollow
-                </button>
+                {userProfile?.following?.some(
+                  (followingUser) => followingUser._id === post?.author?._id
+                ) ? (
+                  <button
+                    onClick={() => handleFollow(post?.author?._id)}
+                    className="text-red-700 font-[600]"
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleFollow(post?.author?._id)}
+                    className="text-[#4CB5F9] font-[600]"
+                  >
+                    Follow
+                  </button>
+                )}
+
                 <button>Add to favorite</button>
 
                 {user_Details?._id === post?.author?._id && (
