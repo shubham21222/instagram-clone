@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: null,
-  user_Details: null, // Make sure to initialize all state variables
+  user_Details: null, 
   suggestedUsers: [],
 };
 

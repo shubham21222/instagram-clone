@@ -13,10 +13,11 @@ import { toast } from "react-toastify";
 import { Base_url } from "@/utils/config";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { removeToken, removeUsersDetails } from "@/redux/slice";
+import { removeToken, removeUsersDetails, setSuggestedUsers } from "@/redux/slice";
 import { useNavigate } from "react-router-dom";
 import CreatePost from "./createPost";
 import Loader from "@/utils/loader";
+import { setPosts } from "@/redux/postSlice";
 
 const LeftSidebar = () => {
   const { token } = useSelector((state) => state.Auth);
@@ -60,6 +61,9 @@ const LeftSidebar = () => {
       if (response.status === 200) {
         toast.success("Logout Successfully");
         dispatch(removeToken(""));
+        dispatch(setSuggestedUsers(null))
+        dispatch(setPosts(null))
+
         dispatch(removeUsersDetails());
         navigate("/");
       }
@@ -78,15 +82,17 @@ const LeftSidebar = () => {
     } else if (textType === "Create") {
       createPostHandler();
     } else if (textType === "Profile") {
-      navigate(`/profile`);
+      navigate(`/profile/${user_Details?._id}`);
+    } else if (textType === "Home") {
+      navigate('/home');
     }
   };
   return (
     <>
       {isLoading && <Loader />}
-      <div className="fixed top-0 z-10 left-0  border-r border-gray-300 w-[16%] h-screen">
+      <div className=" fixed top-0 z-10 left-0  border-r border-gray-300 w-[16%] h-screen">
         <div className="flex flex-col overflow-y-scroll h-screen overflow-hidden px-4 relative scrollbarHidden">
-          <div className="absolute z-30">
+          <div className="">
             <img
               src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
               className="w-[12%] mx-auto fixed bg-white "
