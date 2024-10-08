@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const SuggestedUsers = () => {
   const { suggestedUsers } = useSelector((store) => store.Auth);
-  console.log(suggestedUsers, "suggestedUsers");
   return (
     <div className="my-10">
       <div className="flex items-center justify-between text-sm">
