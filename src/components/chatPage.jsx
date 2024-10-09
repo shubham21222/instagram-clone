@@ -11,7 +11,7 @@ import { Base_url } from "@/utils/config";
 import LeftSidebar from "./leftSidebar";
 
 const ChatPage = () => {
-  const [textMessage, setTextMessage] = useState("");
+  const [message, setTextMessage] = useState("");
   const { user_Details, suggestedUsers, token } = useSelector(
     (state) => state.Auth
   );
@@ -22,8 +22,8 @@ const ChatPage = () => {
   const sendMessageHandler = async (receiverId) => {
     try {
       const res = await axios.post(
-        `${Base_url}/api/v1/message/send/:id /${receiverId}`,
-        { textMessage },
+        `${Base_url}/api/v1/message/send/${receiverId}`,
+        { message },
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const ChatPage = () => {
           <Messages selectedUser={selectedUser} />
           <div className="flex items-center p-4 border-t border-t-gray-300">
             <Input
-              value={textMessage}
+              value={message}
               onChange={(e) => setTextMessage(e.target.value)}
               type="text"
               className="flex-1 mr-2 focus-visible:ring-transparent"
