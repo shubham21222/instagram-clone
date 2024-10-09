@@ -35,7 +35,7 @@ const Profile = () => {
               <div>
                 <img
                   src={userProfile?.profilePicture}
-                  className="rounded-full w-24 h-24"
+                  className="rounded-full w-24 h-24 object-cover"
                 />
               </div>{" "}
             </section>

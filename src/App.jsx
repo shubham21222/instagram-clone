@@ -4,8 +4,48 @@ import Home from "./components/home";
 import Registration from "./components/auth/register";
 import Profile from "./components/profile";
 import EditProfile from "./components/editProfile";
+import ChatPage from "./components/chatPage";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSocket } from "./redux/socketSlice";
+import { setOnlineUsers } from "./redux/chatSlice";
+import { Base_url } from "./utils/config";
 
 function App() {
+  const { user_Details } = useSelector((state) => state.Auth);
+  const { socket } = useSelector((store) => store.Socketio);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user_Details) {
+      const Socketio = io(`${Base_url}`, {
+        query: {
+          userId: user_Details?._id,
+        },
+        transports: ["websocket"],
+      });
+      dispatch(setSocket(Socketio));
+
+      // listen all the events
+      Socketio.on("getOnlineUsers", (onlineUsers) => {
+        dispatch(setOnlineUsers(onlineUsers));
+      });
+
+      Socketio.on("notification", (notification) => {
+        // dispatch(setLikeNotification(notification));
+      });
+
+      return () => {
+        Socketio.close();
+        dispatch(setSocket(null));
+      };
+    } else if (socket) {
+      socket.close();
+      dispatch(setSocket(null));
+    }
+  }, [user_Details, dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -14,7 +54,7 @@ function App() {
         <Route path="/registration" element={<Registration />} />{" "}
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
     </BrowserRouter>
   );
