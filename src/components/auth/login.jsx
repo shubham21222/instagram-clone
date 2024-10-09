@@ -6,6 +6,7 @@ import { setToken, userDetails } from "@/redux/slice";
 import { Base_url } from "@/utils/config";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "@/utils/loader";
+import { setUserProfile } from "@/redux/authSlice";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const LogIn = () => {
       if (response.status === 200) {
         dispatch(setToken(response.data.token));
         dispatch(userDetails(response.data.user));
+        dispatch(setUserProfile(response.data.user))
         toast.success("Login Success");
         navigate("/home");
       }

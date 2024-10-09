@@ -32,9 +32,9 @@ function App() {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
-      Socketio.on("notification", (notification) => {
-        // dispatch(setLikeNotification(notification));
-      });
+      // Socketio.on("notification", (notification) => {
+      //   dispatch(setLikeNotification(notification));
+      // });
 
       return () => {
         Socketio.close();
