@@ -12,6 +12,7 @@ import { Base_url } from "@/utils/config";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { IoIosSend } from "react-icons/io";
 import useGetUserProfile from "@/hooks/useGetProfile";
+import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -170,22 +171,43 @@ const Post = ({ post }) => {
       console.log(error, "Error");
     }
   };
- 
-  
+
+  const bookmarkHandler = async () => {
+    try {
+      const res = await axios.get(
+        `${Base_url}/api/v1/post/${post?._id}/bookmark`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="my-8 w-full max-w-[400px] mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
-            <Avatar className="border">
-              <AvatarImage
-                src={post?.author?.profilePicture}
-                alt="post_image"
-                className="w-10 h-10"
-              ></AvatarImage>
-            </Avatar>
-
-            <h1>{post?.author?.Username}</h1>
+            <Link to={`/profile/${user_Details?._id}`}>
+              <Avatar className="border">
+                <AvatarImage
+                  src={post?.author?.profilePicture}
+                  alt="post_image"
+                  className="w-10 h-10"
+                ></AvatarImage>
+              </Avatar>
+            </Link>
+            <Link to={`/profile/${user_Details?._id}`}>
+              <h1>{post?.author?.Username}</h1>
+            </Link>
           </div>
           <div className="flex gap-3">
             {/* {post?.author?._id === userProfile?.following[3]?._id ? (
@@ -215,7 +237,6 @@ const Post = ({ post }) => {
                 Follow
               </button>
             )}
-
             <Dialog>
               <DialogTrigger asChild>
                 <MoreHorizontal className="cursor-pointer" />
@@ -287,6 +308,7 @@ const Post = ({ post }) => {
             />
           </div>
           <Bookmark
+            onClick={bookmarkHandler}
             size={"20px"}
             className="cursor-pointer hover:text-gray-600"
           />

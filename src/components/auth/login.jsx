@@ -68,8 +68,8 @@ const LogIn = () => {
           <form onSubmit={handleSubmit} className="   mx-auto">
             <div className="text-center">
               <img
-                src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
-                className="w-[50%] mx-auto"
+              //  src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
+               className="w-[50%] mx-auto"
               />
               <h1 className="font-semibold text-[22px] my-1">Login</h1>
             </div>

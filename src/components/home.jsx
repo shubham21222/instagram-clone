@@ -30,4 +30,4 @@ const Home = () => {
   );
 };
 
-export default protectedRoute(Home);
+export default Home;

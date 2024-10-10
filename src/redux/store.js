@@ -3,22 +3,32 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./slice";
 import postReducer from "./postSlice";
-import userReducer from "./authSlice"
-import chatSlice from "./chatSlice"
-import socketSlice from "./socketSlice"
+import userReducer from "./authSlice";
+import chatSlice from "./chatSlice";
+import socketSlice from "./socketSlice";
+import rtnSlice from "./rtnSlice";
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth", "Post", "userAuth" , "Chat" , "Socketio"], // Add the slices you want to persist here
+  whitelist: [
+    "Auth",
+    "Post",
+    "userAuth",
+    "Chat",
+    "Socketio",
+    "realTimeNotification",
+  ], // Add the slices you want to persist here
 };
 
 const rootReducer = combineReducers({
   Auth: authReducer,
   Post: postReducer,
   userAuth: userReducer,
-  Chat : chatSlice,
-  Socketio : socketSlice,
+  Chat: chatSlice,
+  Socketio: socketSlice,
+  realTimeNotification: rtnSlice,
+
   // Add more reducers here if needed
 });
 

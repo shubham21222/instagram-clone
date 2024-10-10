@@ -48,6 +48,7 @@ const Messages = ({ selectedUser }) => {
               </div>
             );
           })}
+          {/* <p>{messages?.message}</p> */}
       </div>
     </div>
   );
