@@ -83,7 +83,7 @@ const Registration = () => {
             )}
             <div className="text-center">
               <img
-                src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
+                // src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
                 className="w-[50%] mx-auto"
               />
               <h1 className="font-semibold text-[22px]  my-1">SignUp</h1>
