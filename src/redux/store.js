@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   Post: postReducer,
   userAuth: userReducer,
   Chat: chatReducer,
-  Socketio: socketSlice,
+  socketio: socketSlice,
   realTimeNotification: rtnSlice,
 
   // Add more reducers here if needed
@@ -37,13 +37,13 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       // Ignore these action types from redux-persist
-  //       ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-  //     },
-  //   }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types from redux-persist
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

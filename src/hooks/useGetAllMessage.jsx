@@ -17,7 +17,7 @@ const useGetAllMessage = () => {
           `${Base_url}/api/v1/message/all/${selectedUser?._id}`,
           {
             headers: {
-              Authorization: token, 
+              Authorization: token,
             },
           }
         );

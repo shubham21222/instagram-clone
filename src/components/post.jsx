@@ -225,18 +225,25 @@ const Post = ({ post }) => {
                 Follow
               </button>
             )} */}
-            {userProfile?.following?.some(
-              (followingUser) => followingUser._id === post?.author?._id
-            ) ? (
+            {userProfile._id === post?.author?._id ? (
               ""
             ) : (
-              <button
-                onClick={() => handleFollow(post?.author?._id)}
-                className="text-[#4CB5F9] font-[600]"
-              >
-                Follow
-              </button>
+              <div>
+                {userProfile?.following?.some(
+                  (followingUser) => followingUser._id === post?.author?._id
+                ) ? (
+                  ""
+                ) : (
+                  <button
+                    onClick={() => handleFollow(post?.author?._id)}
+                    className="text-[#4CB5F9] font-[600]"
+                  >
+                    Follow
+                  </button>
+                )}
+              </div>
             )}
+
             <Dialog>
               <DialogTrigger asChild>
                 <MoreHorizontal className="cursor-pointer" />

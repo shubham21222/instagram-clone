@@ -11,36 +11,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { Base_url } from "./utils/config";
+import { setLikeNotification } from "./redux/rtnSlice";
 
 function App() {
   const { user_Details } = useSelector((state) => state.Auth);
-  const { socket } = useSelector((store) => store.Socketio);
+  const { socket } = useSelector((store) => store.socketio);
+  console.log(socket , "socket")
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (user_Details) {
-      const Socketio = io(`${Base_url}`, {
+      const socketio = io(`${Base_url}`, {
         query: {
           userId: user_Details?._id,
         },
         transports: ["websocket"],
       });
-      dispatch(setSocket(Socketio));
+      dispatch(setSocket(socketio));
 
       // listen all the events
-      Socketio.on("getOnlineUsers", (onlineUsers) => {
+      socketio.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
-      // Socketio.on("notification", (notification) => {
-      //   dispatch(setLikeNotification(notification));
-      // });
+      socketio.on("notification", (notification) => {
+        dispatch(setLikeNotification(notification));
+      });
 
       return () => {
-        Socketio.close();
+        socketio.close();
         dispatch(setSocket(null));
       };
-    } else if (socket) {
+    } else if(socket) {
       socket.close();
       dispatch(setSocket(null));
     }
