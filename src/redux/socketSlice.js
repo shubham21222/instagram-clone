@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const socketSlice = createSlice({
-  name: "Socketio",
+  name: "socketio",
   initialState: {
     socket: null,
   },

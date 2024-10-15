@@ -15,6 +15,8 @@ const ChatPage = () => {
   const { user_Details, suggestedUsers, token } = useSelector(
     (state) => state.Auth
   );
+
+  console.log(suggestedUsers , "suggestedUsers")
   const { selectedUser } = useSelector((state) => state.userAuth);
   const { onlineUsers, messages } = useSelector((state) => state.Chat);
   const dispatch = useDispatch();
@@ -59,17 +61,17 @@ const ChatPage = () => {
             <hr className="mb-4 border-gray-300" />
             <div className="overflow-y-auto h-[80vh]">
               {Array.isArray(suggestedUsers) &&
-                suggestedUsers.map((suggestedUser, index) => {
-                  const isOnline = onlineUsers.includes(suggestedUser?._id);
+                suggestedUsers.map((suggestedUse, index) => {
+                  const isOnline = onlineUsers.includes(suggestedUse?._id);
                   return (
                     <div
                       key={index}
-                      onClick={() => dispatch(setSelectedUser(suggestedUser))}
+                      onClick={() => dispatch(setSelectedUser(suggestedUse))}
                       className="flex gap-3 items-center p-3 hover:bg-gray-50 cursor-pointer"
                     >
                       <div className="w-14 h-14">
                         <img
-                          src={suggestedUser?.profilePicture}
+                          src={suggestedUse?.profilePicture}
                           width={500}
                           height={500}
                           className="w-14 h-14 rounded-full object-cover"
@@ -77,7 +79,7 @@ const ChatPage = () => {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-medium">
-                          {suggestedUser?.Username}
+                          {suggestedUse?.Username}
                         </span>
                         <span
                           className={`text-xs font-bold ${
