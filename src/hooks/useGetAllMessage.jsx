@@ -22,7 +22,7 @@ const useGetAllMessage = () => {
           }
         );
         if (res.data.success) {
-          dispatch(setMessages(res.data.messages));
+          dispatch(setMessages(res.data.message));
         }
       } catch (error) {
         console.log(error);
