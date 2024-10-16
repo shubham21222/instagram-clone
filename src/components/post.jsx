@@ -55,7 +55,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        toast.success(`${action}d`);
+        toast.success(`${action}d` || "success");
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);
@@ -95,7 +95,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        toast.success(response.data.message);
+        toast.success(response.data.message || "Success");
         setComment("");
         refreshData();
 
@@ -145,7 +145,7 @@ const Post = ({ post }) => {
       }
     } catch (error) {
       console.log(error, "Error");
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "Failed");
     } finally {
       setOpen(false);
     }
@@ -164,7 +164,7 @@ const Post = ({ post }) => {
       );
       // console.log(response);
       if (response.status === 200) {
-        toast.success(response.data.message);
+        toast.success(response.data.message || "Success");
         refreshData();
       } else console.log("Failed");
     } catch (error) {
@@ -184,7 +184,7 @@ const Post = ({ post }) => {
         }
       );
       if (res.status === 200) {
-        toast.success(res.data.message);
+        toast.success(res.data.message || "success");
       }
     } catch (error) {
       console.log(error ,"Error");
