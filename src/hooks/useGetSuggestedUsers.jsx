@@ -27,8 +27,7 @@ const useGetSuggestedUser = () => {
           }
         );
         if (response.data.success) {
-          console.log(response?.data?.Users);
-
+          // console.log(response?.data?.Users);
           dispatch(setSuggestedUsers(response?.data?.Users));
         }
       } catch (error) {
