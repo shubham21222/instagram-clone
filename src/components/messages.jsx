@@ -68,5 +68,4 @@ const Messages = ({ selectedUser }) => {
     </div>
   );
 };
-
 export default Messages;
