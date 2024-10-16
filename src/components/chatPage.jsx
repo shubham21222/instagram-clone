@@ -37,7 +37,7 @@ const ChatPage = () => {
         setTextMessage("");
       }
     } catch (error) {
-      console.log(error ,"Error");
+      console.log(error, "Error");
     }
   };
 
@@ -46,7 +46,12 @@ const ChatPage = () => {
       dispatch(setSelectedUser(null));
     };
   }, []);
-
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && message.trim() !== "") {
+      e.preventDefault();
+      sendMessageHandler(selectedUser?._id);
+    }
+  };
   return (
     <>
       <div className="">
@@ -107,7 +112,7 @@ const ChatPage = () => {
                 </div>
               </div>
               <Messages selectedUser={selectedUser} />
-              <div className="flex items-center p-4 border-t border-t-gray-300">
+              {/* <div className="flex items-center p-4 border-t border-t-gray-300">
                 <Input
                   value={message}
                   onChange={(e) => setTextMessage(e.target.value)}
@@ -116,6 +121,23 @@ const ChatPage = () => {
                   placeholder="Messages..."
                 />
                 <Button onClick={() => sendMessageHandler(selectedUser?._id)}>
+                  Send
+                </Button>
+              </div> */}
+              <div className="p-4 flex items-center gap-2">
+                <input
+                  type="text"
+                  className="flex-1 p-2 border rounded-lg"
+                  placeholder="Type a message"
+                  value={message}
+                  onChange={(e) => setTextMessage(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <Button
+                  className="h-10"
+                  // variant="primary"
+                  onClick={() => sendMessageHandler(selectedUser?._id)}
+                >
                   Send
                 </Button>
               </div>
