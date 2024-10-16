@@ -13,7 +13,6 @@ import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { IoIosSend } from "react-icons/io";
 import useGetUserProfile from "@/hooks/useGetProfile";
 import { Link } from "react-router-dom";
-import useSocket from "@/hooks/useSocket";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -22,11 +21,11 @@ const Post = ({ post }) => {
   const { token } = useSelector((state) => state.Auth);
   const { user_Details } = useSelector((state) => state.Auth);
   const { userProfile } = useSelector((state) => state.userAuth);
-  console.log(userProfile, "userProfile");
 
-  const { socket, connected } = useSocket(`${Base_url}`);
   const { posts } = useSelector((state) => state.Post);
-  const [liked, setLiked] = useState(post?.likes?.includes(user_Details?._id) || false);
+  const [liked, setLiked] = useState(
+    post?.likes?.includes(user_Details?._id) || false // initialize based on user ID
+  );
   const [postLike, setPostLike] = useState(post?.likes?.length);
   const [comment, setComment] = useState("");
   const [isRefresh, setRefresh] = useState(false);
@@ -41,20 +40,22 @@ const Post = ({ post }) => {
       setText("");
     }
   };
-  const likeDislike = async () => {
+  const likeDislike = async (_id) => {
     try {
       const action = liked ? "Dislike" : "Like";
+
       const response = await axios.post(
         `${Base_url}/api/v1/postAuth/${action}/${post?._id}`,
         {},
         {
           headers: {
-            Authorization: token,
+            Authorization: token, // ensure token is properly set
           },
         }
       );
 
       if (response.data.success) {
+        toast.success(`${action}d`);
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);
@@ -69,9 +70,14 @@ const Post = ({ post }) => {
             : p
         );
         dispatch(setPosts(updatedPostData));
+      } else {
+        toast.error("Failed to update like status");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error(
+        error.response?.data?.message || "An error occurred while updating"
+      );
     }
   };
   const handleComment = async (id) => {
@@ -114,7 +120,7 @@ const Post = ({ post }) => {
         toast.error("Failed to add comment");
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error.response.data.message || "Failed");
     }
   };
   const handleDelete = async () => {
@@ -181,7 +187,7 @@ const Post = ({ post }) => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error ,"Error");
     }
   };
 

@@ -31,7 +31,7 @@ const LeftSidebar = () => {
   const { likeNotification } = useSelector(
     (state) => state.realTimeNotification
   );
-  console.log(likeNotification, "likeNotification");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);

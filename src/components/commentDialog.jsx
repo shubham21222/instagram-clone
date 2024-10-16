@@ -82,7 +82,7 @@ const CommentDialog = ({
         toast.error("Failed to add comment");
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log(error.response.data.message || "Failed");
     }
   };
   // const handleComment = async () => {

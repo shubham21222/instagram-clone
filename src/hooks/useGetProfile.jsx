@@ -20,14 +20,14 @@ const useGetUserProfile = (userId ) => {
             },
           }
         );
-        console.log(response , "Profile");
+        // console.log(response , "Profile");
 
         if (response.data.Success) {
-          console.log(response?.data?.data , "Profile");
+          // console.log(response?.data?.data , "Profile");
           dispatch(setUserProfile(response?.data?.data));
         }
       } catch (error) {
-        console.log(error);
+        console.log(error , "Error");
       }
     };
     fetchUserProfile();

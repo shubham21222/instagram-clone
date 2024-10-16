@@ -42,7 +42,7 @@ const EditProfile = () => {
   };
 
   const editProfileHandler = async () => {
-    console.log(input);
+    // console.log(input);
     const formData = new FormData();
     formData.append("bio", input.bio);
     formData.append("gender", input.gender);
@@ -75,7 +75,7 @@ const EditProfile = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error , "Error");
       toast.error(error.response.data.messasge);
     } finally {
       setLoading(false);
