@@ -12,6 +12,7 @@ import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { IoIosSend } from "react-icons/io";
 import useGetUserProfile from "@/hooks/useGetProfile";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        alert(`${action}d` || "success");
+        toast.success(`${action}d` || "success");
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);
@@ -70,11 +71,11 @@ const Post = ({ post }) => {
         );
         dispatch(setPosts(updatedPostData));
       } else {
-        alert("Failed to update like status");
+        toast.error("Failed to update like status");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert(
+      toast.error(
         error.response?.data?.message || "An error occurred while updating"
       );
     }
@@ -94,7 +95,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        alert(response.data.message || "Success");
+        toast.success(response.data.message || "Success");
         setComment("");
         refreshData();
 
@@ -116,7 +117,7 @@ const Post = ({ post }) => {
 
         dispatch(setPosts(updatedPostData));
       } else {
-        alert("Failed to add comment");
+        toast.error("Failed to add comment");
       }
     } catch (error) {
       console.log(error.response.data.message || "Failed");
@@ -137,14 +138,14 @@ const Post = ({ post }) => {
           (postItem) => postItem?._id !== post?._id
         );
         dispatch(setPosts(updatePostData));
-        alert("Delete Successful");
+        toast.success("Delete Successful");
         setOpen(false);
       } else {
         alert("Failed");
       }
     } catch (error) {
       console.log(error, "Error");
-      alert(error.response.data.message || "Failed");
+      toast.error(error.response.data.message || "Failed");
     } finally {
       setOpen(false);
     }
@@ -163,11 +164,11 @@ const Post = ({ post }) => {
       );
       // console.log(response);
       if (response.status === 200) {
-        alert(response.data.message || "Success");
+        toast.success(response.data.message || "Success");
         refreshData();
       } else console.log("Failed");
     } catch (error) {
-      console.log(error, "Error");
+      toast.error(error, "Error");
     }
   };
 
@@ -183,7 +184,7 @@ const Post = ({ post }) => {
         }
       );
       if (res.status === 200) {
-        alert(res.data.message || "success");
+        toast.success(res.data.message || "success");
       }
     } catch (error) {
       console.log(error ,"Error");
@@ -192,6 +193,7 @@ const Post = ({ post }) => {
 
   return (
     <>
+     <Toaster />
       <div className="my-8 w-full max-w-[400px] mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">

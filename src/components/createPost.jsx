@@ -10,6 +10,7 @@ import axios from "axios";
 import { setPosts } from "@/redux/postSlice";
 import { Base_url } from "@/utils/config";
 import { Loader2 } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const CreatePost = ({ open, setOpen }) => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const CreatePost = ({ open, setOpen }) => {
         }
       );
       if (response.data.success) {
-        alert("Create Post Successfully");
+        toast.success("Create Post Successfully");
         dispatch(setPosts([response.data.data, ...posts]));
         setCaption("");
         setFile(null);
@@ -56,7 +57,7 @@ const CreatePost = ({ open, setOpen }) => {
         setOpen(false);
       }
     } catch (error) {
-      alert(error.response.data.message || "Failed");
+      toast.error(error.response.data.message || "Failed");
     } finally {
       setLoading(false);
     }
@@ -64,7 +65,7 @@ const CreatePost = ({ open, setOpen }) => {
 
   return (
     <>
-  
+  <Toaster/>
       {/* {isLoading && <Loader />} */}
       <div className="">
         <Dialog open={open}>

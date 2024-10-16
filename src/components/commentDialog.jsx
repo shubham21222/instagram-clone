@@ -8,6 +8,7 @@ import { IoIosSend } from "react-icons/io";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { setPosts } from "@/redux/postSlice";
+import toast, { Toaster } from "react-hot-toast";
 const CommentDialog = ({
   post,
   open,
@@ -57,7 +58,7 @@ const CommentDialog = ({
         }
       );
       if (response.data.success) {
-        alert(response.data.message || "success");
+        toast.success(response.data.message || "success");
         setComment("");
         refreshData();
 
@@ -78,7 +79,7 @@ const CommentDialog = ({
         );
         dispatch(setPosts(updatedPostData));
       } else {
-        alert("Failed to add comment");
+        toast.error("Failed to add comment");
       }
     } catch (error) {
       console.log(error.response.data.message || "Failed");
@@ -122,13 +123,13 @@ const CommentDialog = ({
         }
       );
       if (response?.data?.msg === "Liked the comment") {
-        alert("Liked Comment");
+        toast.success("Liked Comment");
         setLikedComment((prev) => [...prev, _id]); // Add the liked comment ID to the array
       } else if (response?.data?.msg === "Unliked the comment") {
-        alert("Unliked Comment");
+        toast.success("Unliked Comment");
         setLikedComment((prev) => prev.filter((id) => id !== _id)); // Remove the comment ID from the array
       } else {
-        alert("Failed to update like status");
+        toast.error("Failed to update like status");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -140,6 +141,7 @@ const CommentDialog = ({
 
   return (
     <>
+    <Toaster/>
       <Dialog open={open} className="">
         <DialogContent
           onInteractOutside={() => setOpen(false)}

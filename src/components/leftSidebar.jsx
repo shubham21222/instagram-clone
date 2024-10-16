@@ -23,6 +23,7 @@ import Loader from "@/utils/loader";
 import { setPosts } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import toast, { Toaster } from "react-hot-toast";
 
 const LeftSidebar = () => {
   const { token } = useSelector((state) => state.Auth);
@@ -69,7 +70,7 @@ const LeftSidebar = () => {
         }
       );
       if (response.status === 200) {
-        alert("Logout Successfully");
+        toast.success("Logout Successfully");
         dispatch(removeToken(""));
         dispatch(setSuggestedUsers(""));
         dispatch(setPosts(""));
@@ -77,7 +78,7 @@ const LeftSidebar = () => {
         navigate("/");
       }
     } catch (error) {
-      alert(error.response.data.message || "Failed");
+      toast.error(error.response.data.message || "Failed");
     } finally {
       setLoading(false);
     }
@@ -100,6 +101,7 @@ const LeftSidebar = () => {
   };
   return (
     <>
+    <Toaster/>
       {isLoading && <Loader />}
       <div className=" fixed top-0 z-10 left-0  border-r border-gray-300 w-[16%] h-screen">
         <div className="flex flex-col overflow-y-scroll h-screen overflow-hidden px-4 relative scrollbarHidden">
