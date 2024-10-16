@@ -121,19 +121,19 @@ console.log(likeNotification , "likeNotification")
                   {item.icon}
                   <span>{item.text}</span>
                   {item.text === "Notifications" &&
-                    likeNotification?.length > 0 && (
+                    likeNotification?.message > 0 && (
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             size="icon"
                             className="rounded-full h-5 w-5 bg-red-600 hover:bg-red-600 absolute bottom-6 left-6"
                           >
-                            {likeNotification?.length}
+                            {likeNotification?.message}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent>
                           <div>
-                            {likeNotification?.length === 0 ? (
+                            {likeNotification?.message === 0 ? (
                               <p>No new notification</p>
                             ) : (
                               likeNotification?.map((notification) => {
