@@ -34,8 +34,9 @@ function App() {
       });
 
       socketio.on("notification", (notification) => {
-        dispatch(setLikeNotification  (notification));
         console.log(notification , "notification")
+        dispatch(setLikeNotification  (notification));
+      
       });
       return () => {
         socketio.close();

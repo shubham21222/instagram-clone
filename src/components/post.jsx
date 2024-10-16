@@ -162,9 +162,9 @@ const Post = ({ post }) => {
           },
         }
       );
-      // console.log(response.status === 200);
+      // console.log(response);
       if (response.status === 200) {
-        toast.success("Followed");
+        toast.success(response.data.message);
         refreshData();
       } else console.log("Failed");
     } catch (error) {
