@@ -226,38 +226,32 @@ const Post = ({ post }) => {
                 Follow
               </button>
             )} */}
-            {userProfile._id === post?.author?._id ? (
+            {/* {userProfile._id === post?.author?._id ? (
               ""
             ) : (
+            
+            )} */}
+            <div>
               <div>
-                {userProfile?.following?.some(
-                  (followingUser) => followingUser === post?.author?._id
+                {user_Details?.following?.some(
+                  (followingUser) => followingUser._id === post?.author?._id
                 ) ? (
-                  ""
+                  <button
+                    onClick={() => handleFollow(post?.author?._id)}
+                    className="text-red-700 font-[600]"
+                  >
+                    Unfollow
+                  </button>
                 ) : (
-                  <div>
-                    {userProfile?.following?.some(
-                      (followingUser) => followingUser._id === post?.author?._id
-                    ) ? (
-                      <button
-                        onClick={() => handleFollow(post?.author?._id)}
-                        className="text-red-700 font-[600]"
-                      >
-                        Unfollow
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleFollow(post?.author?._id)}
-                        className="text-[#4CB5F9] font-[600]"
-                      >
-                        Follow
-                      </button>
-                    )}
-                  </div>
+                  <button
+                    onClick={() => handleFollow(post?.author?._id)}
+                    className="text-[#4CB5F9] font-[600]"
+                  >
+                    Follow
+                  </button>
                 )}
               </div>
-            )}
-
+            </div>
             <Dialog>
               <DialogTrigger asChild>
                 <MoreHorizontal className="cursor-pointer" />
