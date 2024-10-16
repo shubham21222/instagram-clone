@@ -7,6 +7,9 @@ const rtnSlice = createSlice({
   },
   reducers: {
     setLikeNotification: (state, action) => {
+      console.log(state , "state")
+      console.log(action , "action")
+
       if (action.payload.type === "like") {
         state.likeNotification.push(action.payload);
       } else if (action.payload.type === "dislike") {
