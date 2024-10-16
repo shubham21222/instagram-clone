@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
 import Loader from "@/utils/loader";
 
 const Registration = () => {
@@ -60,11 +59,11 @@ const Registration = () => {
       );
 
       setSuccessMessage("Registration successful!");
-      toast.success("Registration successful!");
+      alert("Registration successful!");
       navigate("/");
     } catch (error) {
       setErrorMessage("Error occurred during registration. Please try again.");
-      toast.error(error.response.error.message || "Register Failed");
+      alert(error.response.error.message || "Register Failed");
     } finally {
       setLoading(false);
     }
@@ -73,7 +72,7 @@ const Registration = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <ToastContainer autoClose={1500} />
+
       <div className="flex items-center h-screen">
         <div className="form-container">
           <form onSubmit={handleSubmit}>

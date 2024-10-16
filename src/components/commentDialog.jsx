@@ -7,7 +7,6 @@ import { FaHeart, FaHeartBroken, FaRegHeart } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
-import { toast } from "react-toastify";
 import { setPosts } from "@/redux/postSlice";
 const CommentDialog = ({
   post,
@@ -58,7 +57,7 @@ const CommentDialog = ({
         }
       );
       if (response.data.success) {
-        toast.success(response.data.message || "success");
+        alert(response.data.message || "success");
         setComment("");
         refreshData();
 
@@ -79,7 +78,7 @@ const CommentDialog = ({
         );
         dispatch(setPosts(updatedPostData));
       } else {
-        toast.error("Failed to add comment");
+        alert("Failed to add comment");
       }
     } catch (error) {
       console.log(error.response.data.message || "Failed");
@@ -99,12 +98,12 @@ const CommentDialog = ({
   //       }
   //     );
   //     if (response.data.success) {
-  //       toast.success(response.data.message);
+  //       alert(response.data.message);
   //       setComment("");
   //       refreshData();
 
   //     } else {
-  //       toast.error("Failed");
+  //       alert("Failed");
   //     }
   //   } catch (error) {
   //     console.log(error.response.data.message);
@@ -123,17 +122,17 @@ const CommentDialog = ({
         }
       );
       if (response?.data?.msg === "Liked the comment") {
-        toast.success("Liked Comment");
+        alert("Liked Comment");
         setLikedComment((prev) => [...prev, _id]); // Add the liked comment ID to the array
       } else if (response?.data?.msg === "Unliked the comment") {
-        toast.success("Unliked Comment");
+        alert("Unliked Comment");
         setLikedComment((prev) => prev.filter((id) => id !== _id)); // Remove the comment ID from the array
       } else {
-        toast.error("Failed to update like status");
+        alert("Failed to update like status");
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(
+      alert(
         error.response?.data?.message || "An error occurred while updating"
       );
     }

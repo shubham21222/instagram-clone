@@ -15,7 +15,6 @@ import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { setUserProfile } from "@/redux/authSlice";
 import { Base_url } from "@/utils/config";
-import { toast } from "react-toastify";
 import { userDetails } from "@/redux/slice";
 
 const EditProfile = () => {
@@ -72,11 +71,11 @@ const EditProfile = () => {
         dispatch(setUserProfile(updatedUserData));
         dispatch(userDetails(updatedUserData))
         navigate(`/profile/${user_Details?._id}`);
-        toast.success(res.data.message || "Success");
+        alert(res.data.message || "Success");
       }
     } catch (error) {
       console.log(error , "Error");
-      toast.error(error.response.data.messasge || "Failed");
+      alert(error.response.data.messasge || "Failed");
     } finally {
       setLoading(false);
     }
