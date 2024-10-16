@@ -20,6 +20,8 @@ const useGetUserProfile = (userId ) => {
             },
           }
         );
+        console.log(response , "Profile");
+
         if (response.data.Success) {
           console.log(response?.data?.data , "Profile");
           dispatch(setUserProfile(response?.data?.data));
