@@ -16,10 +16,11 @@ import { useNavigate } from "react-router-dom";
 import { setUserProfile } from "@/redux/authSlice";
 import { Base_url } from "@/utils/config";
 import { userDetails } from "@/redux/slice";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditProfile = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const imageRef = useRef();
   const { userProfile } = useSelector((state) => state.userAuth);
   const { user_Details } = useSelector((state) => state.Auth);
@@ -67,93 +68,96 @@ const EditProfile = () => {
           profilePicture: res.data.user?.profilePicture,
           gender: res.data.user.gender,
         };
-      
+
         dispatch(setUserProfile(updatedUserData));
-        dispatch(userDetails(updatedUserData))
+        dispatch(userDetails(updatedUserData));
         navigate(`/profile/${user_Details?._id}`);
-        alert(res.data.message || "Success");
+        toast.success(res.data.message || "Success");
       }
     } catch (error) {
-      console.log(error , "Error");
-      alert(error.response.data.messasge || "Failed");
+      console.log(error, "Error");
+      toast.error(error.response.data.messasge || "Failed");
     } finally {
       setLoading(false);
     }
   };
   return (
-    <div className="flex max-w-2xl mx-auto pl-10">
-      <section className="flex flex-col gap-6 w-full my-8">
-        <h1 className="font-bold text-xl">Edit Profile</h1>
-        <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <img
-              src={userProfile.profilePicture}
-              alt="post_image"
-              className="w-60"
-            />
-            <div>
-              <h1 className="font-bold text-sm">{userProfile.username}</h1>
-              <span className="text-gray-600">
-                {userProfile.bio || "Bio here..."}
-              </span>
+    <>
+      <Toaster />
+      <div className="flex max-w-2xl mx-auto pl-10">
+        <section className="flex flex-col gap-6 w-full my-8">
+          <h1 className="font-bold text-xl">Edit Profile</h1>
+          <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <img
+                src={userProfile.profilePicture}
+                alt="post_image"
+                className="w-60"
+              />
+              <div>
+                <h1 className="font-bold text-sm">{userProfile.username}</h1>
+                <span className="text-gray-600">
+                  {userProfile.bio || "Bio here..."}
+                </span>
+              </div>
             </div>
-          </div>
-          <input
-            ref={imageRef}
-            onChange={fileChangeHandler}
-            type="file"
-            className="hidden"
-          />
-          <Button
-            onClick={() => imageRef?.current.click()}
-            className="bg-[#0095F6] h-8 hover:bg-[#318bc7]"
-          >
-            Change photo
-          </Button>
-        </div>
-        <div>
-          <h1 className="font-bold text-xl mb-2">Bio</h1>
-          <Textarea
-            value={input.bio}
-            onChange={(e) => setInput({ ...input, bio: e.target.value })}
-            name="bio"
-            className="focus-visible:ring-transparent"
-          />
-        </div>
-        <div>
-          <h1 className="font-bold mb-2">Gender</h1>
-          <Select
-            defaultValue={input.gender}
-            onValueChange={selectChangeHandler}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex justify-end">
-          {loading ? (
-            <Button className="w-fit bg-[#0095F6] hover:bg-[#2a8ccd]">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </Button>
-          ) : (
+            <input
+              ref={imageRef}
+              onChange={fileChangeHandler}
+              type="file"
+              className="hidden"
+            />
             <Button
-              onClick={editProfileHandler}
-              className="w-fit bg-[#0095F6] hover:bg-[#2a8ccd]"
+              onClick={() => imageRef?.current.click()}
+              className="bg-[#0095F6] h-8 hover:bg-[#318bc7]"
             >
-              Submit
+              Change photo
             </Button>
-          )}
-        </div>
-      </section>
-    </div>
+          </div>
+          <div>
+            <h1 className="font-bold text-xl mb-2">Bio</h1>
+            <Textarea
+              value={input.bio}
+              onChange={(e) => setInput({ ...input, bio: e.target.value })}
+              name="bio"
+              className="focus-visible:ring-transparent"
+            />
+          </div>
+          <div>
+            <h1 className="font-bold mb-2">Gender</h1>
+            <Select
+              defaultValue={input.gender}
+              onValueChange={selectChangeHandler}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex justify-end">
+            {loading ? (
+              <Button className="w-fit bg-[#0095F6] hover:bg-[#2a8ccd]">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : (
+              <Button
+                onClick={editProfileHandler}
+                className="w-fit bg-[#0095F6] hover:bg-[#2a8ccd]"
+              >
+                Submit
+              </Button>
+            )}
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 

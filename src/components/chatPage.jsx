@@ -18,7 +18,7 @@ const ChatPage = () => {
   const { selectedUser } = useSelector((state) => state.userAuth);
   const { onlineUsers, messages } = useSelector((state) => state.Chat);
   const dispatch = useDispatch();
-  console.log(suggestedUsers, "suggestedUsers");
+  // console.log(suggestedUsers, "suggestedUsers");
 
   const sendMessageHandler = async (receiverId) => {
     try {

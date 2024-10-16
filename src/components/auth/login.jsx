@@ -6,6 +6,7 @@ import { Base_url } from "@/utils/config";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "@/utils/loader";
 import { setUserProfile } from "@/redux/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const LogIn = () => {
         dispatch(setToken(response.data.token));
         dispatch(userDetails(response.data.user));
         dispatch(setUserProfile(response.data.user));
-        alert("Login Success");
+        toast.success("Login Success");
         navigate("/home");
       }
     } catch (err) {
@@ -60,6 +61,7 @@ const LogIn = () => {
 
   return (
     <>
+     <Toaster />
       {isLoading && <Loader />}
       <div className="flex justify-center items-center h-screen">
         <div className=" border w-1/4 text-center px-5 rounded-[10px]">
