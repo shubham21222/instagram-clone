@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/Avatar";
-import { toast } from "react-toastify";
 import { Base_url } from "@/utils/config";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +30,7 @@ const LeftSidebar = () => {
   const { likeNotification } = useSelector(
     (state) => state.realTimeNotification
   );
-console.log(likeNotification , "likeNotification")
+  console.log(likeNotification, "likeNotification");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -70,7 +69,7 @@ console.log(likeNotification , "likeNotification")
         }
       );
       if (response.status === 200) {
-        toast.success("Logout Successfully");
+        alert("Logout Successfully");
         dispatch(removeToken(""));
         dispatch(setSuggestedUsers(""));
         dispatch(setPosts(""));
@@ -78,7 +77,7 @@ console.log(likeNotification , "likeNotification")
         navigate("/");
       }
     } catch (error) {
-      toast.error(error.response.data.message || "Failed");
+      alert(error.response.data.message || "Failed");
     } finally {
       setLoading(false);
     }
@@ -122,19 +121,22 @@ console.log(likeNotification , "likeNotification")
                   <span>{item.text}</span>
                   {item.text === "Notifications" &&
                     likeNotification?.message > 0 && (
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
+                      <div>
+                        {alert("come")}
+                        <div>
+                          <button
                             size="icon"
                             className="rounded-full h-5 w-5 bg-red-600 hover:bg-red-600 absolute bottom-6 left-6"
                           >
                             {likeNotification?.message}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
+                          </button>
+                        </div>
+                        <div>
                           <div>
                             {likeNotification?.message === 0 ? (
                               <p>No new notification</p>
+                      
+
                             ) : (
                               likeNotification?.map((notification) => {
                                 return (
@@ -162,8 +164,8 @@ console.log(likeNotification , "likeNotification")
                               })
                             )}
                           </div>
-                        </PopoverContent>
-                      </Popover>
+                        </div>
+                      </div>
                     )}
                 </div>
               );

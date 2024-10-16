@@ -6,7 +6,6 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./commentDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
@@ -55,7 +54,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        toast.success(`${action}d` || "success");
+        alert(`${action}d` || "success");
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);
@@ -71,11 +70,11 @@ const Post = ({ post }) => {
         );
         dispatch(setPosts(updatedPostData));
       } else {
-        toast.error("Failed to update like status");
+        alert("Failed to update like status");
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(
+      alert(
         error.response?.data?.message || "An error occurred while updating"
       );
     }
@@ -95,7 +94,7 @@ const Post = ({ post }) => {
       );
 
       if (response.data.success) {
-        toast.success(response.data.message || "Success");
+        alert(response.data.message || "Success");
         setComment("");
         refreshData();
 
@@ -117,7 +116,7 @@ const Post = ({ post }) => {
 
         dispatch(setPosts(updatedPostData));
       } else {
-        toast.error("Failed to add comment");
+        alert("Failed to add comment");
       }
     } catch (error) {
       console.log(error.response.data.message || "Failed");
@@ -138,14 +137,14 @@ const Post = ({ post }) => {
           (postItem) => postItem?._id !== post?._id
         );
         dispatch(setPosts(updatePostData));
-        toast.success("Delete Successful");
+        alert("Delete Successful");
         setOpen(false);
       } else {
-        toast.error("Failed");
+        alert("Failed");
       }
     } catch (error) {
       console.log(error, "Error");
-      toast.error(error.response.data.message || "Failed");
+      alert(error.response.data.message || "Failed");
     } finally {
       setOpen(false);
     }
@@ -164,7 +163,7 @@ const Post = ({ post }) => {
       );
       // console.log(response);
       if (response.status === 200) {
-        toast.success(response.data.message || "Success");
+        alert(response.data.message || "Success");
         refreshData();
       } else console.log("Failed");
     } catch (error) {
@@ -184,7 +183,7 @@ const Post = ({ post }) => {
         }
       );
       if (res.status === 200) {
-        toast.success(res.data.message || "success");
+        alert(res.data.message || "success");
       }
     } catch (error) {
       console.log(error ,"Error");
@@ -193,7 +192,6 @@ const Post = ({ post }) => {
 
   return (
     <>
-      <ToastContainer autoClose={1500} />
       <div className="my-8 w-full max-w-[400px] mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">

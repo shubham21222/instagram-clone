@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import Loader from "@/utils/loader";
-import { toast, ToastContainer } from "react-toastify";
 import { readFileAsDataURL } from "@/lib/utils";
 import axios from "axios";
 import { setPosts } from "@/redux/postSlice";
@@ -48,7 +47,7 @@ const CreatePost = ({ open, setOpen }) => {
         }
       );
       if (response.data.success) {
-        toast.success("Create Post Successfully");
+        alert("Create Post Successfully");
         dispatch(setPosts([response.data.data, ...posts]));
         setCaption("");
         setFile(null);
@@ -57,7 +56,7 @@ const CreatePost = ({ open, setOpen }) => {
         setOpen(false);
       }
     } catch (error) {
-      toast.error(error.response.data.message || "Failed");
+      alert(error.response.data.message || "Failed");
     } finally {
       setLoading(false);
     }
@@ -65,7 +64,7 @@ const CreatePost = ({ open, setOpen }) => {
 
   return (
     <>
-      <ToastContainer autoClose={1000} />
+  
       {/* {isLoading && <Loader />} */}
       <div className="">
         <Dialog open={open}>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
 import { setToken, userDetails } from "@/redux/slice";
 import { Base_url } from "@/utils/config";
 import { Link, useNavigate } from "react-router-dom";
@@ -45,8 +44,8 @@ const LogIn = () => {
       if (response.status === 200) {
         dispatch(setToken(response.data.token));
         dispatch(userDetails(response.data.user));
-        dispatch(setUserProfile(response.data.user))
-        toast.success("Login Success");
+        dispatch(setUserProfile(response.data.user));
+        alert("Login Success");
         navigate("/home");
       }
     } catch (err) {
@@ -61,15 +60,14 @@ const LogIn = () => {
 
   return (
     <>
-      {/* <ToastContainer /> */}
       {isLoading && <Loader />}
       <div className="flex justify-center items-center h-screen">
         <div className=" border w-1/4 text-center px-5 rounded-[10px]">
           <form onSubmit={handleSubmit} className="   mx-auto">
             <div className="text-center">
               <img
-              //  src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
-               className="w-[50%] mx-auto"
+                //  src="https://www.pngplay.com/wp-content/uploads/12/Instagram-Logo-No-Background.png"
+                className="w-[50%] mx-auto"
               />
               <h1 className="font-semibold text-[22px] my-1">Login</h1>
             </div>
