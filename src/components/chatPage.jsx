@@ -37,7 +37,7 @@ const ChatPage = () => {
         setTextMessage("");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error ,"Error");
     }
   };
 
