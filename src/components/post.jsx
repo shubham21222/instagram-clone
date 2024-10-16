@@ -6,7 +6,7 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./commentDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { Base_url } from "@/utils/config";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
@@ -174,8 +174,8 @@ const Post = ({ post }) => {
 
   const bookmarkHandler = async () => {
     try {
-      const res = await axios.get(
-        `${Base_url}/api/v1/post/${post?._id}/bookmark`,
+      const res = await axios.post(
+        `${Base_url}/api/v1/postAuth/BookMark/${post?._id}`,
         {},
         {
           headers: {
@@ -183,7 +183,7 @@ const Post = ({ post }) => {
           },
         }
       );
-      if (res.data.success) {
+      if (res.status === 200) {
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -193,10 +193,11 @@ const Post = ({ post }) => {
 
   return (
     <>
+      <ToastContainer autoClose={1500} />
       <div className="my-8 w-full max-w-[400px] mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
-            <Link to={`/profile/${user_Details?._id}`}>
+            <Link to={`/profile/${post?.author?._id}`}>
               <Avatar className="border">
                 <AvatarImage
                   src={post?.author?.profilePicture}
@@ -205,7 +206,7 @@ const Post = ({ post }) => {
                 ></AvatarImage>
               </Avatar>
             </Link>
-            <Link to={`/profile/${user_Details?._id}`}>
+            <Link to={`/profile/${post?.author?._id}`}>
               <h1>{post?.author?.Username}</h1>
             </Link>
           </div>

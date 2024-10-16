@@ -16,7 +16,6 @@ import { setLikeNotification } from "./redux/rtnSlice";
 function App() {
   const { user_Details } = useSelector((state) => state.Auth);
   const { socket } = useSelector((store) => store.socketio);
-  console.log(socket , "socket")
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +34,7 @@ function App() {
       });
 
       socketio.on("notification", (notification) => {
-        dispatch(setLikeNotification(notification));
+        dispatch(setLikeNotification  (notification));
       });
 
       return () => {

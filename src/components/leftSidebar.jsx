@@ -31,7 +31,7 @@ const LeftSidebar = () => {
   const { likeNotification } = useSelector(
     (state) => state.realTimeNotification
   );
-
+  console.log(likeNotification, "likeNotification");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -121,31 +121,31 @@ const LeftSidebar = () => {
                   {item.icon}
                   <span>{item.text}</span>
                   {item.text === "Notifications" &&
-                    likeNotification.length > 0 && (
+                    likeNotification?.length > 0 && (
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             size="icon"
                             className="rounded-full h-5 w-5 bg-red-600 hover:bg-red-600 absolute bottom-6 left-6"
                           >
-                            {likeNotification.length}
+                            {likeNotification?.length}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent>
                           <div>
-                            {likeNotification.length === 0 ? (
+                            {likeNotification?.length === 0 ? (
                               <p>No new notification</p>
                             ) : (
-                              likeNotification.map((notification) => {
+                              likeNotification?.map((notification) => {
                                 return (
                                   <div
-                                    key={notification.userId}
+                                    key={notification?.userId}
                                     className="flex items-center gap-2 my-2"
                                   >
                                     <Avatar>
                                       <AvatarImage
                                         src={
-                                          notification.userDetails
+                                          notification?.userDetails
                                             ?.profilePicture
                                         }
                                       />
@@ -153,7 +153,7 @@ const LeftSidebar = () => {
                                     </Avatar>
                                     <p className="text-sm">
                                       <span className="font-bold">
-                                        {notification.userDetails?.username}
+                                        {notification?.userDetails?.username}
                                       </span>{" "}
                                       liked your post
                                     </p>
