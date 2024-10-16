@@ -18,37 +18,74 @@ function App() {
   const { socket } = useSelector((store) => store.socketio);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   if (user_Details) {
+  //     const socketio = io(`${Base_url}`, {
+  //       query: {
+  //         userId: user_Details?._id,
+  //       },
+  //       transports: ["websocket"],
+  //     });
+  //     dispatch(setSocket(socketio));
+
+  //     // listen all the events
+  //     socketio.on("getOnlineUsers", (onlineUsers) => {
+  //       console.log(onlineUsers ,"onlineUsers")
+  //       dispatch(setOnlineUsers(onlineUsers));
+  //     });
+
+  //     socketio.on("notification", (notification) => {
+  //       console.log(notification , "notification")
+  //       dispatch(setLikeNotification  (notification));
+      
+  //     });
+  //     return () => {
+  //       socketio.close();
+  //       dispatch(setSocket(null));
+  //     };
+  //   } else if(socket) {
+  //     socket.close();
+  //     dispatch(setSocket(null));
+  //   }
+  // }, [user_Details, dispatch]);
+
+
   useEffect(() => {
     if (user_Details) {
+      // Initialize socket connection with userId in the query
       const socketio = io(`${Base_url}`, {
         query: {
           userId: user_Details?._id,
         },
         transports: ["websocket"],
       });
+
+      // Save the socket instance to the Redux store
       dispatch(setSocket(socketio));
 
-      // listen all the events
+      // Listen for online users event
       socketio.on("getOnlineUsers", (onlineUsers) => {
-        console.log(onlineUsers ,"onlineUsers")
-        dispatch(setOnlineUsers(onlineUsers));
+        console.log(onlineUsers, "onlineUsers");
+        dispatch(setOnlineUsers(onlineUsers)); // Dispatch action to set online users in Redux
       });
 
+      // Listen for notification event
       socketio.on("notification", (notification) => {
-        console.log(notification , "notification")
-        dispatch(setLikeNotification  (notification));
-      
+        console.log(notification, "notification");
+        dispatch(setLikeNotification(notification)); // Dispatch notification action to Redux
       });
+
+      // Cleanup on unmount or when user_Details changes
       return () => {
-        socketio.close();
-        dispatch(setSocket(null));
+        socketio.close(); // Close socket connection
+        dispatch(setSocket(null)); // Reset socket in Redux
       };
-    } else if(socket) {
+    } else if (socket) {
+      // Close the socket if user_Details becomes null (logout scenario)
       socket.close();
       dispatch(setSocket(null));
     }
-  }, [user_Details, dispatch]);
-
+  }, [user_Details, dispatch, socket]);
   return (
     <BrowserRouter>
       <Routes>
