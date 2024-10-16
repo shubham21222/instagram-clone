@@ -231,16 +231,29 @@ const Post = ({ post }) => {
             ) : (
               <div>
                 {userProfile?.following?.some(
-                  (followingUser) => followingUser._id === post?.author?._id
+                  (followingUser) => followingUser === post?.author?._id
                 ) ? (
                   ""
                 ) : (
-                  <button
-                    onClick={() => handleFollow(post?.author?._id)}
-                    className="text-[#4CB5F9] font-[600]"
-                  >
-                    Follow
-                  </button>
+                  <div>
+                    {userProfile?.following?.some(
+                      (followingUser) => followingUser._id === post?.author?._id
+                    ) ? (
+                      <button
+                        onClick={() => handleFollow(post?.author?._id)}
+                        className="text-red-700 font-[600]"
+                      >
+                        Unfollow
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleFollow(post?.author?._id)}
+                        className="text-[#4CB5F9] font-[600]"
+                      >
+                        Follow
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
             )}
@@ -250,22 +263,37 @@ const Post = ({ post }) => {
                 <MoreHorizontal className="cursor-pointer" />
               </DialogTrigger>
               <DialogContent className="max-w-lg">
-                {userProfile?.following?.some(
-                  (followingUser) => followingUser._id === post?.author?._id
-                ) ? (
-                  <button
-                    onClick={() => handleFollow(post?.author?._id)}
-                    className="text-red-700 font-[600]"
-                  >
-                    Unfollow
-                  </button>
+                {userProfile._id === post?.author?._id ? (
+                  ""
                 ) : (
-                  <button
-                    onClick={() => handleFollow(post?.author?._id)}
-                    className="text-[#4CB5F9] font-[600]"
-                  >
-                    Follow
-                  </button>
+                  <div>
+                    {userProfile?.following?.some(
+                      (followingUser) => followingUser._id === post?.author?._id
+                    ) ? (
+                      ""
+                    ) : (
+                      <div className="flex justify-center">
+                        {userProfile?.following?.some(
+                          (followingUser) =>
+                            followingUser._id === post?.author?._id
+                        ) ? (
+                          <button
+                            onClick={() => handleFollow(post?.author?._id)}
+                            className="text-red-700 font-[600]"
+                          >
+                            Unfollow
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleFollow(post?.author?._id)}
+                            className="text-[#4CB5F9] font-[600]"
+                          >
+                            Follow
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 )}
 
                 <button>Add to favorite</button>
