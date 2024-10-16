@@ -72,11 +72,11 @@ const EditProfile = () => {
         dispatch(setUserProfile(updatedUserData));
         dispatch(userDetails(updatedUserData))
         navigate(`/profile/${user_Details?._id}`);
-        toast.success(res.data.message);
+        toast.success(res.data.message || "Success");
       }
     } catch (error) {
       console.log(error , "Error");
-      toast.error(error.response.data.messasge);
+      toast.error(error.response.data.messasge || "Failed");
     } finally {
       setLoading(false);
     }
