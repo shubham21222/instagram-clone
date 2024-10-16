@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const useGetRTM = () => {
   const dispatch = useDispatch();
-  const { socket } = useSelector((state) => state.Socketio);
+  const { socket } = useSelector((state) => state.socketio);
   const { messages } = useSelector((state) => state.Chat);
   useEffect(() => {
     // newMessage

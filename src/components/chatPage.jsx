@@ -12,14 +12,13 @@ import LeftSidebar from "./leftSidebar";
 
 const ChatPage = () => {
   const [message, setTextMessage] = useState("");
-  const { user_Details, suggestedUsers, token } = useSelector(
+  const { token, user_Details, suggestedUsers } = useSelector(
     (state) => state.Auth
   );
-
-  console.log(suggestedUsers , "suggestedUsers")
   const { selectedUser } = useSelector((state) => state.userAuth);
   const { onlineUsers, messages } = useSelector((state) => state.Chat);
   const dispatch = useDispatch();
+  console.log(suggestedUsers, "suggestedUsers");
 
   const sendMessageHandler = async (receiverId) => {
     try {
@@ -31,11 +30,10 @@ const ChatPage = () => {
             "Content-Type": "application/json",
             Authorization: token,
           },
-          withCredentials: true,
         }
       );
       if (response.data.success) {
-        dispatch(setMessages([...messages, response.data.newMessage]));
+        dispatch(setMessages([...(messages || ""), response.data.newMessage]));
         setTextMessage("");
       }
     } catch (error) {
