@@ -30,7 +30,7 @@ function App() {
 
       // listen all the events
       socketio.on("getOnlineUsers", (onlineUsers) => {
-        console.log(onlineUsers ,"onlineUsers")
+        // console.log(onlineUsers ,"onlineUsers")
         dispatch(setOnlineUsers(onlineUsers));
       });
 
