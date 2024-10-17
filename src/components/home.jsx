@@ -4,7 +4,7 @@ import RightSidebar from "./rightSidebar";
 import { Outlet } from "react-router-dom";
 import LeftSidebar from "./leftSidebar";
 import protectedRoute from "@/utils/protectRout";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import useGetAllPost from "@/hooks/useGetAllPost";
 import useGetSuggestedUser from "@/hooks/useGetSuggestedUsers";
 
@@ -13,7 +13,7 @@ const Home = () => {
   useGetSuggestedUser();
   return (
     <>
-      <ToastContainer autoClose={1500} />
+      {/* <ToastContainer autoClose={1500} /> */}
       <div className=" grid grid-cols-3 w-[100%]">
         <div>
           <LeftSidebar />
